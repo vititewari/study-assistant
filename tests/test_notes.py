@@ -1,14 +1,18 @@
 import pytest
+import tools.notes
+import tools.search
 from tools.notes import save_note, read_notes, delete_note
 from tools.search import search_notes
 
 
 @pytest.fixture
 def notes_dir(tmp_path, monkeypatch):
-    """Create a temp data/ directory and chdir into it so all functions use the temp file."""
+    """Create a temp data/ directory and patch all module paths to use it."""
+    notes_file = tmp_path / "data" / "notes.txt"
     (tmp_path / "data").mkdir()
-    monkeypatch.chdir(tmp_path)
-    return tmp_path / "data" / "notes.txt"
+    monkeypatch.setattr(tools.notes, "NOTES_PATH", notes_file)
+    monkeypatch.setattr(tools.search, "NOTES_PATH", notes_file)
+    return notes_file
 
 
 # --- save_note ---

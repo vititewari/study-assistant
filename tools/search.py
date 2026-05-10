@@ -1,9 +1,14 @@
+from pathlib import Path
+
+NOTES_PATH = Path(__file__).parent.parent / "data" / "notes.txt"
+
+
 def search_notes(query):
     """Search data/notes.txt for a query word (case-insensitive) and return all matching note blocks."""
     try:
-        with open("data/notes.txt", "r") as f:
+        with open(NOTES_PATH, "r", encoding="utf-8") as f:
             content = f.read()
-        blocks = [block.strip() for block in content.split("---") if block.strip()]
+        blocks = [block.strip() for block in content.split("---\n") if block.strip()]
         matches = [block for block in blocks if query.lower() in block.lower()]
         if matches:
             return "\n---\n".join(matches)

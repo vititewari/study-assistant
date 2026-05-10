@@ -1,7 +1,13 @@
+from pathlib import Path
+
+NOTES_PATH = Path(__file__).parent.parent / "data" / "notes.txt"
+
+
 def save_note(topic, content):
     """Save a study note with a topic and content to data/notes.txt."""
     try:
-        with open("data/notes.txt", "a") as f:
+        NOTES_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(NOTES_PATH, "a", encoding="utf-8") as f:
             f.write(f"[TOPIC]: {topic}\n[NOTE]: {content}\n---\n")
         return f"Note saved successfully for topic: {topic}"
     except Exception as e:
@@ -11,7 +17,7 @@ def save_note(topic, content):
 def read_notes():
     """Read and return all saved notes from data/notes.txt."""
     try:
-        with open("data/notes.txt", "r") as f:
+        with open(NOTES_PATH, "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
         return "No notes saved yet"
@@ -22,7 +28,7 @@ def read_notes():
 def delete_note(topic):
     """Delete all notes matching the given topic (case-insensitive) from data/notes.txt."""
     try:
-        with open("data/notes.txt", "r") as f:
+        with open(NOTES_PATH, "r", encoding="utf-8") as f:
             content = f.read()
     except FileNotFoundError:
         return "No notes file found — nothing to delete."
@@ -39,7 +45,7 @@ def delete_note(topic):
     deleted = original_count - len(kept)
 
     try:
-        with open("data/notes.txt", "w") as f:
+        with open(NOTES_PATH, "w", encoding="utf-8") as f:
             for block in kept:
                 f.write(block + "---\n")
         return f"Deleted {deleted} note(s) for topic: {topic}"

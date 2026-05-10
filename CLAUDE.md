@@ -36,6 +36,7 @@ Tool schemas are defined manually as Python dictionaries (not generated from doc
 - Never use `print()` for errors — use `return` with an error string.
 - Notes are persisted to `data/notes.txt` (relative to the project root).
 - After implementing any new feature, run `python main.py` and verify it works before reporting done.
+- After every code change, run `python -m pytest tests/` and confirm all tests pass before reporting done.
 
 ## Windows notes
 
