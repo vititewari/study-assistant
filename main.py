@@ -1,6 +1,6 @@
 import sys
 import anthropic
-from tools.notes import save_note, read_notes
+from tools.notes import save_note, read_notes, delete_note
 from tools.search import search_notes
 
 sys.stdout.reconfigure(encoding="utf-8")
@@ -40,6 +40,17 @@ tools = [
             "required": ["query"],
         },
     },
+    {
+        "name": "delete_note",
+        "description": "Delete all saved notes matching a given topic (case-insensitive).",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "topic": {"type": "string", "description": "The topic whose notes should be deleted"},
+            },
+            "required": ["topic"],
+        },
+    },
 ]
 
 messages = []
@@ -48,6 +59,7 @@ tool_router = {
     "save_note": save_note,
     "read_notes": read_notes,
     "search_notes": search_notes,
+    "delete_note": delete_note,
 }
 
 
